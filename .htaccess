@@ -334,18 +334,6 @@ FileETag None
 
 
 # ----------------------------------------------------------------------
-# Apache Performance Tuning
-# ----------------------------------------------------------------------
-
-# Without -SymLinksIfOwnerMatch Apache will have to issue extra system calls to check up on symlinks.
-# For highest performance and no symlink protection set +FollowSymLinks and -SymLinksIfOwnerMatch
-# httpd.apache.org/docs/current/misc/perf-tuning.html#symlinks
-
-Options -SymLinksIfOwnerMatch
-
-
-
-# ----------------------------------------------------------------------
 # Suppress or force the "www." at the beginning of URLs
 # ----------------------------------------------------------------------
 
@@ -475,6 +463,8 @@ AddCharset utf-8 .css .js .xml .json .rss .atom
 # Block access to "hidden" directories whose names begin with a period. This
 # includes directories used by version control systems such as Subversion or Git.
 <IfModule mod_rewrite.c>
+  RewriteCond %{SCRIPT_FILENAME} -d
+	RewriteCond %{SCRIPT_FILENAME} -f
   RewriteRule "(^|/)\." - [F]
 </IfModule>
 
